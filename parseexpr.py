@@ -133,7 +133,7 @@ class Handler:
         if len(args) != 3:
             logger.warning("incorrect argument number")
             return "undefined"
-        return "{0}.ewm(alpha={2}/{1},adjust=False)".format(args[0], args[1], args[2])
+        return "{0}.ewm(alpha={2}/{1},adjust=False).mean()".format(args[0], args[1], args[2])
 
 
 def parser(string: str):
