@@ -149,6 +149,12 @@ class Handler:
             return "undefined"
         return "dt.ts_std({0},{1})".format(args[0], args[1])
 
+    @classmethod
+    def handle_log(cls,args):
+        if len(args) != 1:
+            logger.warning("incorrect argument number")
+            return "undefined"
+        return "dt.df_log({0})".format(args[0])
 
 def parser(string: str):
     string = string.replace("^", "**")
