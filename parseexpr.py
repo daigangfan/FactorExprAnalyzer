@@ -84,7 +84,7 @@ class Handler:
         if len(args) != 2:
             logger.warning("incorrect argument number")
             return "undefined"
-        return "{0}.ewm(span={1})".format(args[0], args[1])
+        return "{0}.ewm(span={1}).mean()".format(args[0], args[1])
 
 
 def parser(string: str):
