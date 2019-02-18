@@ -85,15 +85,27 @@ class Handler:
             logger.warning("incorrect argument number")
             return "undefined"
         return "{0}.ewm(span={1}).mean()".format(args[0], args[1])
-
     @classmethod
     def handle_min(cls,args):
         if len(args) != 2:
             logger.warning("incorrect argument number")
             return "undefined"
-        return "dt.ts_min({0},{1})".format(args[0], args[1])
+        return "{0}.mask({0}>{1},other={1})".format(args[0], args[1])
     @classmethod
     def handle_max(cls,args):
+        if len(args) != 2:
+            logger.warning("incorrect argument number")
+            return "undefined"
+        return "{0}.mask({0}<{1},other={1})".format(args[0], args[1])
+
+    @classmethod
+    def handle_tsmin(cls,args):
+        if len(args) != 2:
+            logger.warning("incorrect argument number")
+            return "undefined"
+        return "dt.ts_min({0},{1})".format(args[0], args[1])
+    @classmethod
+    def handle_tsmax(cls,args):
         if len(args) != 2:
             logger.warning("incorrect argument number")
             return "undefined"
