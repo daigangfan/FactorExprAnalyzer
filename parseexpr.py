@@ -142,6 +142,13 @@ class Handler:
             return "undefined"
         return "{0}.ewm(alpha={2}/{1},adjust=False).mean()".format(args[0], args[1], args[2])
 
+    @classmethod
+    def handle_std(cls,args):
+        if len(args) != 2:
+            logger.warning("incorrect argument number")
+            return "undefined"
+        return "dt.std({0},{1})".format(args[0], args[1])
+
 
 def parser(string: str):
     string = string.replace("^", "**")
