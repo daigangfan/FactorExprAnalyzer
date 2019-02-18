@@ -147,7 +147,7 @@ class Handler:
         if len(args) != 2:
             logger.warning("incorrect argument number")
             return "undefined"
-        return "dt.std({0},{1})".format(args[0], args[1])
+        return "dt.ts_std({0},{1})".format(args[0], args[1])
 
 
 def parser(string: str):
