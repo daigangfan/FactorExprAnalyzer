@@ -77,7 +77,7 @@ class Handler:
         if len(args) != 3:
             logger.warning("incorrect argument number")
             return "undefined"
-        return "dt.ts_corr({0},{1})".format(args[0], args[1])
+        return "dt.ts_corr({0},{1},{2})".format(args[0], args[1],args[2])
 
     @classmethod
     def handle_decaylinear(cls, args):
