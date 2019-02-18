@@ -129,6 +129,13 @@ class Handler:
         return "dt.ts_delay({0},{1})".format(args[0], args[1])
 
     @classmethod
+    def handle_rank(cls, args):
+        if len(args) != 2:
+            logger.warning("incorrect argument number")
+            return "undefined"
+        return "dt.ts_rank({0},{1})".format(args[0], args[1])
+
+    @classmethod
     def handle_sma(cls, args):
         if len(args) != 3:
             logger.warning("incorrect argument number")
@@ -144,7 +151,7 @@ def parser(string: str):
 
 
 def generator(data):
-    sentences = recursive_generate(data,variable_dict={},variable_number=0,sentences=[])
+    sentences = recursive_generate(data, variable_dict={}, variable_number=0, sentences=[])
     return sentences
 
 
