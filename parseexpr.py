@@ -144,7 +144,7 @@ def parser(string: str):
 
 
 def generator(data):
-    sentences = recursive_generate(data)
+    sentences = recursive_generate(data,variable_dict={},variable_number=0,sentences=[])
     return sentences
 
 
