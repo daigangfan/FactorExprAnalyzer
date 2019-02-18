@@ -129,7 +129,7 @@ class Handler:
         return "dt.ts_delay({0},{1})".format(args[0], args[1])
 
     @classmethod
-    def handle_rank(cls, args):
+    def handle_tsrank(cls, args):
         if len(args) != 2:
             logger.warning("incorrect argument number")
             return "undefined"
