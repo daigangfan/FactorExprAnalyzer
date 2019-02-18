@@ -77,7 +77,7 @@ class Handler:
         if len(args) != 3:
             logger.warning("incorrect argument number")
             return "undefined"
-        return "dt.ts_corr({0},{1},{2})".format(args[0], args[1],args[2])
+        return "dt.ts_corr({0},{1},{2})".format(args[0], args[1], args[2])
 
     @classmethod
     def handle_decaylinear(cls, args):
@@ -85,31 +85,56 @@ class Handler:
             logger.warning("incorrect argument number")
             return "undefined"
         return "{0}.ewm(span={1}).mean()".format(args[0], args[1])
+
     @classmethod
-    def handle_min(cls,args):
+    def handle_min(cls, args):
         if len(args) != 2:
             logger.warning("incorrect argument number")
             return "undefined"
         return "{0}.mask({0}>{1},other={1})".format(args[0], args[1])
+
     @classmethod
-    def handle_max(cls,args):
+    def handle_max(cls, args):
         if len(args) != 2:
             logger.warning("incorrect argument number")
             return "undefined"
         return "{0}.mask({0}<{1},other={1})".format(args[0], args[1])
 
     @classmethod
-    def handle_tsmin(cls,args):
+    def handle_tsmin(cls, args):
         if len(args) != 2:
             logger.warning("incorrect argument number")
             return "undefined"
         return "dt.ts_min({0},{1})".format(args[0], args[1])
+
     @classmethod
-    def handle_tsmax(cls,args):
+    def handle_tsmax(cls, args):
         if len(args) != 2:
             logger.warning("incorrect argument number")
             return "undefined"
         return "dt.ts_max({0},{1})".format(args[0], args[1])
+
+    @classmethod
+    def handle_abs(cls, args):
+        if len(args) != 1:
+            logger.warning("incorrect argument number")
+            return "undefined"
+        return "dt.df_abs({0})".format(args[0])
+
+    @classmethod
+    def handle_delay(cls, args):
+        if len(args) != 2:
+            logger.warning("incorrect argument number")
+            return "undefined"
+        return "dt.ts_delay({0},{1})".format(args[0], args[1])
+
+    @classmethod
+    def handle_sma(cls, args):
+        if len(args) != 3:
+            logger.warning("incorrect argument number")
+            return "undefined"
+        return "{0}.ewm(alpha={2}/{1},adjust=False)".format(args[0], args[1], args[2])
+
 
 def parser(string: str):
     string = string.replace("^", "**")
@@ -207,19 +232,21 @@ def recursive_generate(node, variable_dict={}, variable_number=0, sentences=[]):
             variable_dict[node] = "var_{}".format(variable_number)
             variable_number += 1
         temp += (variable_dict[node] + "=")
-        variable_number=register_node(node.operand,variable_dict,variable_number)
-        temp+=Handler.op_dict[type(node.op)]
-        temp+=variable_dict[node.operand]
+        variable_number = register_node(node.operand, variable_dict, variable_number)
+        temp += Handler.op_dict[type(node.op)]
+        temp += variable_dict[node.operand]
         sentences.append(temp)
         if not isinstance(node.operand, (ast.Num, ast.Name)):
             variable_number += 1
             recursive_generate(node.operand, variable_dict, variable_number, sentences)
 
-def pipeline(a:str):
-    data=parser(a)
-    sentences=generator(data)
+
+def pipeline(a: str):
+    data = parser(a)
+    sentences = generator(data)
     sentences.reverse()
     return sentences
+
 
 if __name__ == "__main__":
     a = parser(
