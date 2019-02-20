@@ -1,7 +1,7 @@
 import ast
 import logging
 import re
-
+from itertools import combinations
 logger = logging.getLogger()
 handler = logging.StreamHandler()
 logger.addHandler(handler)
@@ -16,6 +16,7 @@ class Handler:
         "TR": "MAX(MAX(HIGH-LOW,ABS(HIGH-DELAY(CLOSE,1))),ABS(LOW-DELAY(CLOSE,1)))".lower(),
         "HD": "(HIGH-DELAY(HIGH,1))".lower(),
         "LD": "(DELAY(LOW,1)-LOW)".lower(),
+        "VWAP":"(AMOUNT/VOLUME)"
     }
     for key in substitute_dict.copy():
         substitute_dict[key.lower()] = substitute_dict[key]
@@ -260,17 +261,29 @@ def recursive_generate(node, variable_dict={}, variable_number=0, sentences=[]):
             variable_number += 1
             recursive_generate(node.operand, variable_dict, variable_number, sentences)
 
+def handle_replicate(sentences):
+    splitted=[a.split("=") for a in sentences]
+    for t in combinations(splitted,2):
+        if t[0][1]==t[1][1]:
+            for i,sent in enumerate(sentences):
+                if sent.startswith(t[1][0]):
+                    sentences[i]=t[1][0]+"="+t[0][0]
+    return sentences
 
 def pipeline(a: str):
     data = parser(a)
     sentences = generator(data)
     sentences.reverse()
+    sentences=handle_replicate(sentences)
     return sentences
 
 
 if __name__ == "__main__":
     a = parser(
-        "((rank(decaylinear(delta((close),2),8))-rank(decaylinear(corr(((vwap*0.3)+(open*0.7)),sum(mean(volume,180),37),14),12)))*-1)")
+        "((rank(max((vwap-close),3))+rank(min((vwap-close),3)))*rank(delta(volume,3)))")
     print(ast.dump(a))
     data = generator(a)
+    print(data)
+    data.reverse()
+    data= handle_replicate(data)
     print(data)
