@@ -1,0 +1,1598 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    NEWLINE
+
+Grammar
+
+Rule 0     S' -> statement
+Rule 1     statement -> test
+Rule 2     atom -> ID
+Rule 3     atom -> NUMBER
+Rule 4     trailer -> LPAREN arglist RPAREN
+Rule 5     arglist -> arglist COMMA argument
+Rule 6     arglist -> argument
+Rule 7     argument -> test
+Rule 8     atom_expr -> atom
+Rule 9     atom_expr -> atom trailer
+Rule 10    power -> atom_expr
+Rule 11    power -> atom_expr POWER factor
+Rule 12    factor -> MINUS factor
+Rule 13    factor -> power
+Rule 14    term -> factor
+Rule 15    term -> term TIMES factor
+Rule 16    term -> term DIVIDE factor
+Rule 17    arith_expr -> term
+Rule 18    arith_expr -> arith_expr PLUS term
+Rule 19    arith_expr -> arith_expr MINUS term
+Rule 20    comparison -> arith_expr
+Rule 21    comparison -> comparison LT arith_expr
+Rule 22    comparison -> comparison GT arith_expr
+Rule 23    comparison -> comparison LE arith_expr
+Rule 24    comparison -> comparison GE arith_expr
+Rule 25    comparison -> comparison EQ arith_expr
+Rule 26    comparison -> comparison NE arith_expr
+Rule 27    not_test -> NOT not_test
+Rule 28    not_test -> comparison
+Rule 29    and_test -> not_test
+Rule 30    and_test -> and_test AND not_test
+Rule 31    or_test -> and_test
+Rule 32    or_test -> or_test OR and_test
+Rule 33    test -> or_test
+Rule 34    test -> or_test TERNARY or_test COLON test
+Rule 35    atom -> LPAREN test RPAREN
+
+Terminals, with rules where they appear
+
+AND                  : 30
+COLON                : 34
+COMMA                : 5
+DIVIDE               : 16
+EQ                   : 25
+GE                   : 24
+GT                   : 22
+ID                   : 2
+LE                   : 23
+LPAREN               : 4 35
+LT                   : 21
+MINUS                : 12 19
+NE                   : 26
+NEWLINE              : 
+NOT                  : 27
+NUMBER               : 3
+OR                   : 32
+PLUS                 : 18
+POWER                : 11
+RPAREN               : 4 35
+TERNARY              : 34
+TIMES                : 15
+error                : 
+
+Nonterminals, with rules where they appear
+
+and_test             : 30 31 32
+arglist              : 4 5
+argument             : 5 6
+arith_expr           : 18 19 20 21 22 23 24 25 26
+atom                 : 8 9
+atom_expr            : 10 11
+comparison           : 21 22 23 24 25 26 28
+factor               : 11 12 14 15 16
+not_test             : 27 29 30
+or_test              : 32 33 34 34
+power                : 13
+statement            : 0
+term                 : 15 16 17 18 19
+test                 : 1 7 34 35
+trailer              : 9
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . statement
+    (1) statement -> . test
+    (33) test -> . or_test
+    (34) test -> . or_test TERNARY or_test COLON test
+    (31) or_test -> . and_test
+    (32) or_test -> . or_test OR and_test
+    (29) and_test -> . not_test
+    (30) and_test -> . and_test AND not_test
+    (27) not_test -> . NOT not_test
+    (28) not_test -> . comparison
+    (20) comparison -> . arith_expr
+    (21) comparison -> . comparison LT arith_expr
+    (22) comparison -> . comparison GT arith_expr
+    (23) comparison -> . comparison LE arith_expr
+    (24) comparison -> . comparison GE arith_expr
+    (25) comparison -> . comparison EQ arith_expr
+    (26) comparison -> . comparison NE arith_expr
+    (17) arith_expr -> . term
+    (18) arith_expr -> . arith_expr PLUS term
+    (19) arith_expr -> . arith_expr MINUS term
+    (14) term -> . factor
+    (15) term -> . term TIMES factor
+    (16) term -> . term DIVIDE factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . power
+    (10) power -> . atom_expr
+    (11) power -> . atom_expr POWER factor
+    (8) atom_expr -> . atom
+    (9) atom_expr -> . atom trailer
+    (2) atom -> . ID
+    (3) atom -> . NUMBER
+    (35) atom -> . LPAREN test RPAREN
+
+    NOT             shift and go to state 6
+    MINUS           shift and go to state 10
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 16
+    LPAREN          shift and go to state 17
+
+    statement                      shift and go to state 1
+    test                           shift and go to state 2
+    or_test                        shift and go to state 3
+    and_test                       shift and go to state 4
+    not_test                       shift and go to state 5
+    comparison                     shift and go to state 7
+    arith_expr                     shift and go to state 8
+    term                           shift and go to state 9
+    factor                         shift and go to state 11
+    power                          shift and go to state 12
+    atom_expr                      shift and go to state 13
+    atom                           shift and go to state 14
+
+state 1
+
+    (0) S' -> statement .
+
+
+
+state 2
+
+    (1) statement -> test .
+
+    $end            reduce using rule 1 (statement -> test .)
+
+
+state 3
+
+    (33) test -> or_test .
+    (34) test -> or_test . TERNARY or_test COLON test
+    (32) or_test -> or_test . OR and_test
+
+    $end            reduce using rule 33 (test -> or_test .)
+    RPAREN          reduce using rule 33 (test -> or_test .)
+    COMMA           reduce using rule 33 (test -> or_test .)
+    TERNARY         shift and go to state 18
+    OR              shift and go to state 19
+
+
+state 4
+
+    (31) or_test -> and_test .
+    (30) and_test -> and_test . AND not_test
+
+    TERNARY         reduce using rule 31 (or_test -> and_test .)
+    OR              reduce using rule 31 (or_test -> and_test .)
+    $end            reduce using rule 31 (or_test -> and_test .)
+    RPAREN          reduce using rule 31 (or_test -> and_test .)
+    COLON           reduce using rule 31 (or_test -> and_test .)
+    COMMA           reduce using rule 31 (or_test -> and_test .)
+    AND             shift and go to state 20
+
+
+state 5
+
+    (29) and_test -> not_test .
+
+    AND             reduce using rule 29 (and_test -> not_test .)
+    TERNARY         reduce using rule 29 (and_test -> not_test .)
+    OR              reduce using rule 29 (and_test -> not_test .)
+    $end            reduce using rule 29 (and_test -> not_test .)
+    RPAREN          reduce using rule 29 (and_test -> not_test .)
+    COLON           reduce using rule 29 (and_test -> not_test .)
+    COMMA           reduce using rule 29 (and_test -> not_test .)
+
+
+state 6
+
+    (27) not_test -> NOT . not_test
+    (27) not_test -> . NOT not_test
+    (28) not_test -> . comparison
+    (20) comparison -> . arith_expr
+    (21) comparison -> . comparison LT arith_expr
+    (22) comparison -> . comparison GT arith_expr
+    (23) comparison -> . comparison LE arith_expr
+    (24) comparison -> . comparison GE arith_expr
+    (25) comparison -> . comparison EQ arith_expr
+    (26) comparison -> . comparison NE arith_expr
+    (17) arith_expr -> . term
+    (18) arith_expr -> . arith_expr PLUS term
+    (19) arith_expr -> . arith_expr MINUS term
+    (14) term -> . factor
+    (15) term -> . term TIMES factor
+    (16) term -> . term DIVIDE factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . power
+    (10) power -> . atom_expr
+    (11) power -> . atom_expr POWER factor
+    (8) atom_expr -> . atom
+    (9) atom_expr -> . atom trailer
+    (2) atom -> . ID
+    (3) atom -> . NUMBER
+    (35) atom -> . LPAREN test RPAREN
+
+    NOT             shift and go to state 6
+    MINUS           shift and go to state 10
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 16
+    LPAREN          shift and go to state 17
+
+    not_test                       shift and go to state 21
+    comparison                     shift and go to state 7
+    arith_expr                     shift and go to state 8
+    term                           shift and go to state 9
+    factor                         shift and go to state 11
+    power                          shift and go to state 12
+    atom_expr                      shift and go to state 13
+    atom                           shift and go to state 14
+
+state 7
+
+    (28) not_test -> comparison .
+    (21) comparison -> comparison . LT arith_expr
+    (22) comparison -> comparison . GT arith_expr
+    (23) comparison -> comparison . LE arith_expr
+    (24) comparison -> comparison . GE arith_expr
+    (25) comparison -> comparison . EQ arith_expr
+    (26) comparison -> comparison . NE arith_expr
+
+    AND             reduce using rule 28 (not_test -> comparison .)
+    TERNARY         reduce using rule 28 (not_test -> comparison .)
+    OR              reduce using rule 28 (not_test -> comparison .)
+    $end            reduce using rule 28 (not_test -> comparison .)
+    RPAREN          reduce using rule 28 (not_test -> comparison .)
+    COLON           reduce using rule 28 (not_test -> comparison .)
+    COMMA           reduce using rule 28 (not_test -> comparison .)
+    LT              shift and go to state 22
+    GT              shift and go to state 23
+    LE              shift and go to state 24
+    GE              shift and go to state 25
+    EQ              shift and go to state 26
+    NE              shift and go to state 27
+
+
+state 8
+
+    (20) comparison -> arith_expr .
+    (18) arith_expr -> arith_expr . PLUS term
+    (19) arith_expr -> arith_expr . MINUS term
+
+    LT              reduce using rule 20 (comparison -> arith_expr .)
+    GT              reduce using rule 20 (comparison -> arith_expr .)
+    LE              reduce using rule 20 (comparison -> arith_expr .)
+    GE              reduce using rule 20 (comparison -> arith_expr .)
+    EQ              reduce using rule 20 (comparison -> arith_expr .)
+    NE              reduce using rule 20 (comparison -> arith_expr .)
+    AND             reduce using rule 20 (comparison -> arith_expr .)
+    TERNARY         reduce using rule 20 (comparison -> arith_expr .)
+    OR              reduce using rule 20 (comparison -> arith_expr .)
+    $end            reduce using rule 20 (comparison -> arith_expr .)
+    RPAREN          reduce using rule 20 (comparison -> arith_expr .)
+    COLON           reduce using rule 20 (comparison -> arith_expr .)
+    COMMA           reduce using rule 20 (comparison -> arith_expr .)
+    PLUS            shift and go to state 28
+    MINUS           shift and go to state 29
+
+
+state 9
+
+    (17) arith_expr -> term .
+    (15) term -> term . TIMES factor
+    (16) term -> term . DIVIDE factor
+
+    PLUS            reduce using rule 17 (arith_expr -> term .)
+    MINUS           reduce using rule 17 (arith_expr -> term .)
+    LT              reduce using rule 17 (arith_expr -> term .)
+    GT              reduce using rule 17 (arith_expr -> term .)
+    LE              reduce using rule 17 (arith_expr -> term .)
+    GE              reduce using rule 17 (arith_expr -> term .)
+    EQ              reduce using rule 17 (arith_expr -> term .)
+    NE              reduce using rule 17 (arith_expr -> term .)
+    AND             reduce using rule 17 (arith_expr -> term .)
+    TERNARY         reduce using rule 17 (arith_expr -> term .)
+    OR              reduce using rule 17 (arith_expr -> term .)
+    $end            reduce using rule 17 (arith_expr -> term .)
+    RPAREN          reduce using rule 17 (arith_expr -> term .)
+    COLON           reduce using rule 17 (arith_expr -> term .)
+    COMMA           reduce using rule 17 (arith_expr -> term .)
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+
+
+state 10
+
+    (12) factor -> MINUS . factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . power
+    (10) power -> . atom_expr
+    (11) power -> . atom_expr POWER factor
+    (8) atom_expr -> . atom
+    (9) atom_expr -> . atom trailer
+    (2) atom -> . ID
+    (3) atom -> . NUMBER
+    (35) atom -> . LPAREN test RPAREN
+
+    MINUS           shift and go to state 10
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 16
+    LPAREN          shift and go to state 17
+
+    factor                         shift and go to state 32
+    power                          shift and go to state 12
+    atom_expr                      shift and go to state 13
+    atom                           shift and go to state 14
+
+state 11
+
+    (14) term -> factor .
+
+    TIMES           reduce using rule 14 (term -> factor .)
+    DIVIDE          reduce using rule 14 (term -> factor .)
+    PLUS            reduce using rule 14 (term -> factor .)
+    MINUS           reduce using rule 14 (term -> factor .)
+    LT              reduce using rule 14 (term -> factor .)
+    GT              reduce using rule 14 (term -> factor .)
+    LE              reduce using rule 14 (term -> factor .)
+    GE              reduce using rule 14 (term -> factor .)
+    EQ              reduce using rule 14 (term -> factor .)
+    NE              reduce using rule 14 (term -> factor .)
+    AND             reduce using rule 14 (term -> factor .)
+    TERNARY         reduce using rule 14 (term -> factor .)
+    OR              reduce using rule 14 (term -> factor .)
+    $end            reduce using rule 14 (term -> factor .)
+    RPAREN          reduce using rule 14 (term -> factor .)
+    COLON           reduce using rule 14 (term -> factor .)
+    COMMA           reduce using rule 14 (term -> factor .)
+
+
+state 12
+
+    (13) factor -> power .
+
+    TIMES           reduce using rule 13 (factor -> power .)
+    DIVIDE          reduce using rule 13 (factor -> power .)
+    PLUS            reduce using rule 13 (factor -> power .)
+    MINUS           reduce using rule 13 (factor -> power .)
+    LT              reduce using rule 13 (factor -> power .)
+    GT              reduce using rule 13 (factor -> power .)
+    LE              reduce using rule 13 (factor -> power .)
+    GE              reduce using rule 13 (factor -> power .)
+    EQ              reduce using rule 13 (factor -> power .)
+    NE              reduce using rule 13 (factor -> power .)
+    AND             reduce using rule 13 (factor -> power .)
+    TERNARY         reduce using rule 13 (factor -> power .)
+    OR              reduce using rule 13 (factor -> power .)
+    $end            reduce using rule 13 (factor -> power .)
+    RPAREN          reduce using rule 13 (factor -> power .)
+    COLON           reduce using rule 13 (factor -> power .)
+    COMMA           reduce using rule 13 (factor -> power .)
+
+
+state 13
+
+    (10) power -> atom_expr .
+    (11) power -> atom_expr . POWER factor
+
+    TIMES           reduce using rule 10 (power -> atom_expr .)
+    DIVIDE          reduce using rule 10 (power -> atom_expr .)
+    PLUS            reduce using rule 10 (power -> atom_expr .)
+    MINUS           reduce using rule 10 (power -> atom_expr .)
+    LT              reduce using rule 10 (power -> atom_expr .)
+    GT              reduce using rule 10 (power -> atom_expr .)
+    LE              reduce using rule 10 (power -> atom_expr .)
+    GE              reduce using rule 10 (power -> atom_expr .)
+    EQ              reduce using rule 10 (power -> atom_expr .)
+    NE              reduce using rule 10 (power -> atom_expr .)
+    AND             reduce using rule 10 (power -> atom_expr .)
+    TERNARY         reduce using rule 10 (power -> atom_expr .)
+    OR              reduce using rule 10 (power -> atom_expr .)
+    $end            reduce using rule 10 (power -> atom_expr .)
+    RPAREN          reduce using rule 10 (power -> atom_expr .)
+    COLON           reduce using rule 10 (power -> atom_expr .)
+    COMMA           reduce using rule 10 (power -> atom_expr .)
+    POWER           shift and go to state 33
+
+
+state 14
+
+    (8) atom_expr -> atom .
+    (9) atom_expr -> atom . trailer
+    (4) trailer -> . LPAREN arglist RPAREN
+
+    POWER           reduce using rule 8 (atom_expr -> atom .)
+    TIMES           reduce using rule 8 (atom_expr -> atom .)
+    DIVIDE          reduce using rule 8 (atom_expr -> atom .)
+    PLUS            reduce using rule 8 (atom_expr -> atom .)
+    MINUS           reduce using rule 8 (atom_expr -> atom .)
+    LT              reduce using rule 8 (atom_expr -> atom .)
+    GT              reduce using rule 8 (atom_expr -> atom .)
+    LE              reduce using rule 8 (atom_expr -> atom .)
+    GE              reduce using rule 8 (atom_expr -> atom .)
+    EQ              reduce using rule 8 (atom_expr -> atom .)
+    NE              reduce using rule 8 (atom_expr -> atom .)
+    AND             reduce using rule 8 (atom_expr -> atom .)
+    TERNARY         reduce using rule 8 (atom_expr -> atom .)
+    OR              reduce using rule 8 (atom_expr -> atom .)
+    $end            reduce using rule 8 (atom_expr -> atom .)
+    RPAREN          reduce using rule 8 (atom_expr -> atom .)
+    COLON           reduce using rule 8 (atom_expr -> atom .)
+    COMMA           reduce using rule 8 (atom_expr -> atom .)
+    LPAREN          shift and go to state 35
+
+    trailer                        shift and go to state 34
+
+state 15
+
+    (2) atom -> ID .
+
+    LPAREN          reduce using rule 2 (atom -> ID .)
+    POWER           reduce using rule 2 (atom -> ID .)
+    TIMES           reduce using rule 2 (atom -> ID .)
+    DIVIDE          reduce using rule 2 (atom -> ID .)
+    PLUS            reduce using rule 2 (atom -> ID .)
+    MINUS           reduce using rule 2 (atom -> ID .)
+    LT              reduce using rule 2 (atom -> ID .)
+    GT              reduce using rule 2 (atom -> ID .)
+    LE              reduce using rule 2 (atom -> ID .)
+    GE              reduce using rule 2 (atom -> ID .)
+    EQ              reduce using rule 2 (atom -> ID .)
+    NE              reduce using rule 2 (atom -> ID .)
+    AND             reduce using rule 2 (atom -> ID .)
+    TERNARY         reduce using rule 2 (atom -> ID .)
+    OR              reduce using rule 2 (atom -> ID .)
+    $end            reduce using rule 2 (atom -> ID .)
+    RPAREN          reduce using rule 2 (atom -> ID .)
+    COLON           reduce using rule 2 (atom -> ID .)
+    COMMA           reduce using rule 2 (atom -> ID .)
+
+
+state 16
+
+    (3) atom -> NUMBER .
+
+    LPAREN          reduce using rule 3 (atom -> NUMBER .)
+    POWER           reduce using rule 3 (atom -> NUMBER .)
+    TIMES           reduce using rule 3 (atom -> NUMBER .)
+    DIVIDE          reduce using rule 3 (atom -> NUMBER .)
+    PLUS            reduce using rule 3 (atom -> NUMBER .)
+    MINUS           reduce using rule 3 (atom -> NUMBER .)
+    LT              reduce using rule 3 (atom -> NUMBER .)
+    GT              reduce using rule 3 (atom -> NUMBER .)
+    LE              reduce using rule 3 (atom -> NUMBER .)
+    GE              reduce using rule 3 (atom -> NUMBER .)
+    EQ              reduce using rule 3 (atom -> NUMBER .)
+    NE              reduce using rule 3 (atom -> NUMBER .)
+    AND             reduce using rule 3 (atom -> NUMBER .)
+    TERNARY         reduce using rule 3 (atom -> NUMBER .)
+    OR              reduce using rule 3 (atom -> NUMBER .)
+    $end            reduce using rule 3 (atom -> NUMBER .)
+    RPAREN          reduce using rule 3 (atom -> NUMBER .)
+    COLON           reduce using rule 3 (atom -> NUMBER .)
+    COMMA           reduce using rule 3 (atom -> NUMBER .)
+
+
+state 17
+
+    (35) atom -> LPAREN . test RPAREN
+    (33) test -> . or_test
+    (34) test -> . or_test TERNARY or_test COLON test
+    (31) or_test -> . and_test
+    (32) or_test -> . or_test OR and_test
+    (29) and_test -> . not_test
+    (30) and_test -> . and_test AND not_test
+    (27) not_test -> . NOT not_test
+    (28) not_test -> . comparison
+    (20) comparison -> . arith_expr
+    (21) comparison -> . comparison LT arith_expr
+    (22) comparison -> . comparison GT arith_expr
+    (23) comparison -> . comparison LE arith_expr
+    (24) comparison -> . comparison GE arith_expr
+    (25) comparison -> . comparison EQ arith_expr
+    (26) comparison -> . comparison NE arith_expr
+    (17) arith_expr -> . term
+    (18) arith_expr -> . arith_expr PLUS term
+    (19) arith_expr -> . arith_expr MINUS term
+    (14) term -> . factor
+    (15) term -> . term TIMES factor
+    (16) term -> . term DIVIDE factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . power
+    (10) power -> . atom_expr
+    (11) power -> . atom_expr POWER factor
+    (8) atom_expr -> . atom
+    (9) atom_expr -> . atom trailer
+    (2) atom -> . ID
+    (3) atom -> . NUMBER
+    (35) atom -> . LPAREN test RPAREN
+
+    NOT             shift and go to state 6
+    MINUS           shift and go to state 10
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 16
+    LPAREN          shift and go to state 17
+
+    test                           shift and go to state 36
+    or_test                        shift and go to state 3
+    and_test                       shift and go to state 4
+    not_test                       shift and go to state 5
+    comparison                     shift and go to state 7
+    arith_expr                     shift and go to state 8
+    term                           shift and go to state 9
+    factor                         shift and go to state 11
+    power                          shift and go to state 12
+    atom_expr                      shift and go to state 13
+    atom                           shift and go to state 14
+
+state 18
+
+    (34) test -> or_test TERNARY . or_test COLON test
+    (31) or_test -> . and_test
+    (32) or_test -> . or_test OR and_test
+    (29) and_test -> . not_test
+    (30) and_test -> . and_test AND not_test
+    (27) not_test -> . NOT not_test
+    (28) not_test -> . comparison
+    (20) comparison -> . arith_expr
+    (21) comparison -> . comparison LT arith_expr
+    (22) comparison -> . comparison GT arith_expr
+    (23) comparison -> . comparison LE arith_expr
+    (24) comparison -> . comparison GE arith_expr
+    (25) comparison -> . comparison EQ arith_expr
+    (26) comparison -> . comparison NE arith_expr
+    (17) arith_expr -> . term
+    (18) arith_expr -> . arith_expr PLUS term
+    (19) arith_expr -> . arith_expr MINUS term
+    (14) term -> . factor
+    (15) term -> . term TIMES factor
+    (16) term -> . term DIVIDE factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . power
+    (10) power -> . atom_expr
+    (11) power -> . atom_expr POWER factor
+    (8) atom_expr -> . atom
+    (9) atom_expr -> . atom trailer
+    (2) atom -> . ID
+    (3) atom -> . NUMBER
+    (35) atom -> . LPAREN test RPAREN
+
+    NOT             shift and go to state 6
+    MINUS           shift and go to state 10
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 16
+    LPAREN          shift and go to state 17
+
+    or_test                        shift and go to state 37
+    and_test                       shift and go to state 4
+    not_test                       shift and go to state 5
+    comparison                     shift and go to state 7
+    arith_expr                     shift and go to state 8
+    term                           shift and go to state 9
+    factor                         shift and go to state 11
+    power                          shift and go to state 12
+    atom_expr                      shift and go to state 13
+    atom                           shift and go to state 14
+
+state 19
+
+    (32) or_test -> or_test OR . and_test
+    (29) and_test -> . not_test
+    (30) and_test -> . and_test AND not_test
+    (27) not_test -> . NOT not_test
+    (28) not_test -> . comparison
+    (20) comparison -> . arith_expr
+    (21) comparison -> . comparison LT arith_expr
+    (22) comparison -> . comparison GT arith_expr
+    (23) comparison -> . comparison LE arith_expr
+    (24) comparison -> . comparison GE arith_expr
+    (25) comparison -> . comparison EQ arith_expr
+    (26) comparison -> . comparison NE arith_expr
+    (17) arith_expr -> . term
+    (18) arith_expr -> . arith_expr PLUS term
+    (19) arith_expr -> . arith_expr MINUS term
+    (14) term -> . factor
+    (15) term -> . term TIMES factor
+    (16) term -> . term DIVIDE factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . power
+    (10) power -> . atom_expr
+    (11) power -> . atom_expr POWER factor
+    (8) atom_expr -> . atom
+    (9) atom_expr -> . atom trailer
+    (2) atom -> . ID
+    (3) atom -> . NUMBER
+    (35) atom -> . LPAREN test RPAREN
+
+    NOT             shift and go to state 6
+    MINUS           shift and go to state 10
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 16
+    LPAREN          shift and go to state 17
+
+    and_test                       shift and go to state 38
+    not_test                       shift and go to state 5
+    comparison                     shift and go to state 7
+    arith_expr                     shift and go to state 8
+    term                           shift and go to state 9
+    factor                         shift and go to state 11
+    power                          shift and go to state 12
+    atom_expr                      shift and go to state 13
+    atom                           shift and go to state 14
+
+state 20
+
+    (30) and_test -> and_test AND . not_test
+    (27) not_test -> . NOT not_test
+    (28) not_test -> . comparison
+    (20) comparison -> . arith_expr
+    (21) comparison -> . comparison LT arith_expr
+    (22) comparison -> . comparison GT arith_expr
+    (23) comparison -> . comparison LE arith_expr
+    (24) comparison -> . comparison GE arith_expr
+    (25) comparison -> . comparison EQ arith_expr
+    (26) comparison -> . comparison NE arith_expr
+    (17) arith_expr -> . term
+    (18) arith_expr -> . arith_expr PLUS term
+    (19) arith_expr -> . arith_expr MINUS term
+    (14) term -> . factor
+    (15) term -> . term TIMES factor
+    (16) term -> . term DIVIDE factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . power
+    (10) power -> . atom_expr
+    (11) power -> . atom_expr POWER factor
+    (8) atom_expr -> . atom
+    (9) atom_expr -> . atom trailer
+    (2) atom -> . ID
+    (3) atom -> . NUMBER
+    (35) atom -> . LPAREN test RPAREN
+
+    NOT             shift and go to state 6
+    MINUS           shift and go to state 10
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 16
+    LPAREN          shift and go to state 17
+
+    not_test                       shift and go to state 39
+    comparison                     shift and go to state 7
+    arith_expr                     shift and go to state 8
+    term                           shift and go to state 9
+    factor                         shift and go to state 11
+    power                          shift and go to state 12
+    atom_expr                      shift and go to state 13
+    atom                           shift and go to state 14
+
+state 21
+
+    (27) not_test -> NOT not_test .
+
+    AND             reduce using rule 27 (not_test -> NOT not_test .)
+    TERNARY         reduce using rule 27 (not_test -> NOT not_test .)
+    OR              reduce using rule 27 (not_test -> NOT not_test .)
+    $end            reduce using rule 27 (not_test -> NOT not_test .)
+    RPAREN          reduce using rule 27 (not_test -> NOT not_test .)
+    COLON           reduce using rule 27 (not_test -> NOT not_test .)
+    COMMA           reduce using rule 27 (not_test -> NOT not_test .)
+
+
+state 22
+
+    (21) comparison -> comparison LT . arith_expr
+    (17) arith_expr -> . term
+    (18) arith_expr -> . arith_expr PLUS term
+    (19) arith_expr -> . arith_expr MINUS term
+    (14) term -> . factor
+    (15) term -> . term TIMES factor
+    (16) term -> . term DIVIDE factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . power
+    (10) power -> . atom_expr
+    (11) power -> . atom_expr POWER factor
+    (8) atom_expr -> . atom
+    (9) atom_expr -> . atom trailer
+    (2) atom -> . ID
+    (3) atom -> . NUMBER
+    (35) atom -> . LPAREN test RPAREN
+
+    MINUS           shift and go to state 10
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 16
+    LPAREN          shift and go to state 17
+
+    arith_expr                     shift and go to state 40
+    term                           shift and go to state 9
+    factor                         shift and go to state 11
+    power                          shift and go to state 12
+    atom_expr                      shift and go to state 13
+    atom                           shift and go to state 14
+
+state 23
+
+    (22) comparison -> comparison GT . arith_expr
+    (17) arith_expr -> . term
+    (18) arith_expr -> . arith_expr PLUS term
+    (19) arith_expr -> . arith_expr MINUS term
+    (14) term -> . factor
+    (15) term -> . term TIMES factor
+    (16) term -> . term DIVIDE factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . power
+    (10) power -> . atom_expr
+    (11) power -> . atom_expr POWER factor
+    (8) atom_expr -> . atom
+    (9) atom_expr -> . atom trailer
+    (2) atom -> . ID
+    (3) atom -> . NUMBER
+    (35) atom -> . LPAREN test RPAREN
+
+    MINUS           shift and go to state 10
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 16
+    LPAREN          shift and go to state 17
+
+    arith_expr                     shift and go to state 41
+    term                           shift and go to state 9
+    factor                         shift and go to state 11
+    power                          shift and go to state 12
+    atom_expr                      shift and go to state 13
+    atom                           shift and go to state 14
+
+state 24
+
+    (23) comparison -> comparison LE . arith_expr
+    (17) arith_expr -> . term
+    (18) arith_expr -> . arith_expr PLUS term
+    (19) arith_expr -> . arith_expr MINUS term
+    (14) term -> . factor
+    (15) term -> . term TIMES factor
+    (16) term -> . term DIVIDE factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . power
+    (10) power -> . atom_expr
+    (11) power -> . atom_expr POWER factor
+    (8) atom_expr -> . atom
+    (9) atom_expr -> . atom trailer
+    (2) atom -> . ID
+    (3) atom -> . NUMBER
+    (35) atom -> . LPAREN test RPAREN
+
+    MINUS           shift and go to state 10
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 16
+    LPAREN          shift and go to state 17
+
+    arith_expr                     shift and go to state 42
+    term                           shift and go to state 9
+    factor                         shift and go to state 11
+    power                          shift and go to state 12
+    atom_expr                      shift and go to state 13
+    atom                           shift and go to state 14
+
+state 25
+
+    (24) comparison -> comparison GE . arith_expr
+    (17) arith_expr -> . term
+    (18) arith_expr -> . arith_expr PLUS term
+    (19) arith_expr -> . arith_expr MINUS term
+    (14) term -> . factor
+    (15) term -> . term TIMES factor
+    (16) term -> . term DIVIDE factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . power
+    (10) power -> . atom_expr
+    (11) power -> . atom_expr POWER factor
+    (8) atom_expr -> . atom
+    (9) atom_expr -> . atom trailer
+    (2) atom -> . ID
+    (3) atom -> . NUMBER
+    (35) atom -> . LPAREN test RPAREN
+
+    MINUS           shift and go to state 10
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 16
+    LPAREN          shift and go to state 17
+
+    arith_expr                     shift and go to state 43
+    term                           shift and go to state 9
+    factor                         shift and go to state 11
+    power                          shift and go to state 12
+    atom_expr                      shift and go to state 13
+    atom                           shift and go to state 14
+
+state 26
+
+    (25) comparison -> comparison EQ . arith_expr
+    (17) arith_expr -> . term
+    (18) arith_expr -> . arith_expr PLUS term
+    (19) arith_expr -> . arith_expr MINUS term
+    (14) term -> . factor
+    (15) term -> . term TIMES factor
+    (16) term -> . term DIVIDE factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . power
+    (10) power -> . atom_expr
+    (11) power -> . atom_expr POWER factor
+    (8) atom_expr -> . atom
+    (9) atom_expr -> . atom trailer
+    (2) atom -> . ID
+    (3) atom -> . NUMBER
+    (35) atom -> . LPAREN test RPAREN
+
+    MINUS           shift and go to state 10
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 16
+    LPAREN          shift and go to state 17
+
+    arith_expr                     shift and go to state 44
+    term                           shift and go to state 9
+    factor                         shift and go to state 11
+    power                          shift and go to state 12
+    atom_expr                      shift and go to state 13
+    atom                           shift and go to state 14
+
+state 27
+
+    (26) comparison -> comparison NE . arith_expr
+    (17) arith_expr -> . term
+    (18) arith_expr -> . arith_expr PLUS term
+    (19) arith_expr -> . arith_expr MINUS term
+    (14) term -> . factor
+    (15) term -> . term TIMES factor
+    (16) term -> . term DIVIDE factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . power
+    (10) power -> . atom_expr
+    (11) power -> . atom_expr POWER factor
+    (8) atom_expr -> . atom
+    (9) atom_expr -> . atom trailer
+    (2) atom -> . ID
+    (3) atom -> . NUMBER
+    (35) atom -> . LPAREN test RPAREN
+
+    MINUS           shift and go to state 10
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 16
+    LPAREN          shift and go to state 17
+
+    arith_expr                     shift and go to state 45
+    term                           shift and go to state 9
+    factor                         shift and go to state 11
+    power                          shift and go to state 12
+    atom_expr                      shift and go to state 13
+    atom                           shift and go to state 14
+
+state 28
+
+    (18) arith_expr -> arith_expr PLUS . term
+    (14) term -> . factor
+    (15) term -> . term TIMES factor
+    (16) term -> . term DIVIDE factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . power
+    (10) power -> . atom_expr
+    (11) power -> . atom_expr POWER factor
+    (8) atom_expr -> . atom
+    (9) atom_expr -> . atom trailer
+    (2) atom -> . ID
+    (3) atom -> . NUMBER
+    (35) atom -> . LPAREN test RPAREN
+
+    MINUS           shift and go to state 10
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 16
+    LPAREN          shift and go to state 17
+
+    term                           shift and go to state 46
+    factor                         shift and go to state 11
+    power                          shift and go to state 12
+    atom_expr                      shift and go to state 13
+    atom                           shift and go to state 14
+
+state 29
+
+    (19) arith_expr -> arith_expr MINUS . term
+    (14) term -> . factor
+    (15) term -> . term TIMES factor
+    (16) term -> . term DIVIDE factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . power
+    (10) power -> . atom_expr
+    (11) power -> . atom_expr POWER factor
+    (8) atom_expr -> . atom
+    (9) atom_expr -> . atom trailer
+    (2) atom -> . ID
+    (3) atom -> . NUMBER
+    (35) atom -> . LPAREN test RPAREN
+
+    MINUS           shift and go to state 10
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 16
+    LPAREN          shift and go to state 17
+
+    term                           shift and go to state 47
+    factor                         shift and go to state 11
+    power                          shift and go to state 12
+    atom_expr                      shift and go to state 13
+    atom                           shift and go to state 14
+
+state 30
+
+    (15) term -> term TIMES . factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . power
+    (10) power -> . atom_expr
+    (11) power -> . atom_expr POWER factor
+    (8) atom_expr -> . atom
+    (9) atom_expr -> . atom trailer
+    (2) atom -> . ID
+    (3) atom -> . NUMBER
+    (35) atom -> . LPAREN test RPAREN
+
+    MINUS           shift and go to state 10
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 16
+    LPAREN          shift and go to state 17
+
+    factor                         shift and go to state 48
+    power                          shift and go to state 12
+    atom_expr                      shift and go to state 13
+    atom                           shift and go to state 14
+
+state 31
+
+    (16) term -> term DIVIDE . factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . power
+    (10) power -> . atom_expr
+    (11) power -> . atom_expr POWER factor
+    (8) atom_expr -> . atom
+    (9) atom_expr -> . atom trailer
+    (2) atom -> . ID
+    (3) atom -> . NUMBER
+    (35) atom -> . LPAREN test RPAREN
+
+    MINUS           shift and go to state 10
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 16
+    LPAREN          shift and go to state 17
+
+    factor                         shift and go to state 49
+    power                          shift and go to state 12
+    atom_expr                      shift and go to state 13
+    atom                           shift and go to state 14
+
+state 32
+
+    (12) factor -> MINUS factor .
+
+    TIMES           reduce using rule 12 (factor -> MINUS factor .)
+    DIVIDE          reduce using rule 12 (factor -> MINUS factor .)
+    PLUS            reduce using rule 12 (factor -> MINUS factor .)
+    MINUS           reduce using rule 12 (factor -> MINUS factor .)
+    LT              reduce using rule 12 (factor -> MINUS factor .)
+    GT              reduce using rule 12 (factor -> MINUS factor .)
+    LE              reduce using rule 12 (factor -> MINUS factor .)
+    GE              reduce using rule 12 (factor -> MINUS factor .)
+    EQ              reduce using rule 12 (factor -> MINUS factor .)
+    NE              reduce using rule 12 (factor -> MINUS factor .)
+    AND             reduce using rule 12 (factor -> MINUS factor .)
+    TERNARY         reduce using rule 12 (factor -> MINUS factor .)
+    OR              reduce using rule 12 (factor -> MINUS factor .)
+    $end            reduce using rule 12 (factor -> MINUS factor .)
+    RPAREN          reduce using rule 12 (factor -> MINUS factor .)
+    COLON           reduce using rule 12 (factor -> MINUS factor .)
+    COMMA           reduce using rule 12 (factor -> MINUS factor .)
+
+
+state 33
+
+    (11) power -> atom_expr POWER . factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . power
+    (10) power -> . atom_expr
+    (11) power -> . atom_expr POWER factor
+    (8) atom_expr -> . atom
+    (9) atom_expr -> . atom trailer
+    (2) atom -> . ID
+    (3) atom -> . NUMBER
+    (35) atom -> . LPAREN test RPAREN
+
+    MINUS           shift and go to state 10
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 16
+    LPAREN          shift and go to state 17
+
+    atom_expr                      shift and go to state 13
+    factor                         shift and go to state 50
+    power                          shift and go to state 12
+    atom                           shift and go to state 14
+
+state 34
+
+    (9) atom_expr -> atom trailer .
+
+    POWER           reduce using rule 9 (atom_expr -> atom trailer .)
+    TIMES           reduce using rule 9 (atom_expr -> atom trailer .)
+    DIVIDE          reduce using rule 9 (atom_expr -> atom trailer .)
+    PLUS            reduce using rule 9 (atom_expr -> atom trailer .)
+    MINUS           reduce using rule 9 (atom_expr -> atom trailer .)
+    LT              reduce using rule 9 (atom_expr -> atom trailer .)
+    GT              reduce using rule 9 (atom_expr -> atom trailer .)
+    LE              reduce using rule 9 (atom_expr -> atom trailer .)
+    GE              reduce using rule 9 (atom_expr -> atom trailer .)
+    EQ              reduce using rule 9 (atom_expr -> atom trailer .)
+    NE              reduce using rule 9 (atom_expr -> atom trailer .)
+    AND             reduce using rule 9 (atom_expr -> atom trailer .)
+    TERNARY         reduce using rule 9 (atom_expr -> atom trailer .)
+    OR              reduce using rule 9 (atom_expr -> atom trailer .)
+    $end            reduce using rule 9 (atom_expr -> atom trailer .)
+    RPAREN          reduce using rule 9 (atom_expr -> atom trailer .)
+    COLON           reduce using rule 9 (atom_expr -> atom trailer .)
+    COMMA           reduce using rule 9 (atom_expr -> atom trailer .)
+
+
+state 35
+
+    (4) trailer -> LPAREN . arglist RPAREN
+    (5) arglist -> . arglist COMMA argument
+    (6) arglist -> . argument
+    (7) argument -> . test
+    (33) test -> . or_test
+    (34) test -> . or_test TERNARY or_test COLON test
+    (31) or_test -> . and_test
+    (32) or_test -> . or_test OR and_test
+    (29) and_test -> . not_test
+    (30) and_test -> . and_test AND not_test
+    (27) not_test -> . NOT not_test
+    (28) not_test -> . comparison
+    (20) comparison -> . arith_expr
+    (21) comparison -> . comparison LT arith_expr
+    (22) comparison -> . comparison GT arith_expr
+    (23) comparison -> . comparison LE arith_expr
+    (24) comparison -> . comparison GE arith_expr
+    (25) comparison -> . comparison EQ arith_expr
+    (26) comparison -> . comparison NE arith_expr
+    (17) arith_expr -> . term
+    (18) arith_expr -> . arith_expr PLUS term
+    (19) arith_expr -> . arith_expr MINUS term
+    (14) term -> . factor
+    (15) term -> . term TIMES factor
+    (16) term -> . term DIVIDE factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . power
+    (10) power -> . atom_expr
+    (11) power -> . atom_expr POWER factor
+    (8) atom_expr -> . atom
+    (9) atom_expr -> . atom trailer
+    (2) atom -> . ID
+    (3) atom -> . NUMBER
+    (35) atom -> . LPAREN test RPAREN
+
+    NOT             shift and go to state 6
+    MINUS           shift and go to state 10
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 16
+    LPAREN          shift and go to state 17
+
+    arglist                        shift and go to state 51
+    argument                       shift and go to state 52
+    test                           shift and go to state 53
+    or_test                        shift and go to state 3
+    and_test                       shift and go to state 4
+    not_test                       shift and go to state 5
+    comparison                     shift and go to state 7
+    arith_expr                     shift and go to state 8
+    term                           shift and go to state 9
+    factor                         shift and go to state 11
+    power                          shift and go to state 12
+    atom_expr                      shift and go to state 13
+    atom                           shift and go to state 14
+
+state 36
+
+    (35) atom -> LPAREN test . RPAREN
+
+    RPAREN          shift and go to state 54
+
+
+state 37
+
+    (34) test -> or_test TERNARY or_test . COLON test
+    (32) or_test -> or_test . OR and_test
+
+    COLON           shift and go to state 55
+    OR              shift and go to state 19
+
+
+state 38
+
+    (32) or_test -> or_test OR and_test .
+    (30) and_test -> and_test . AND not_test
+
+    TERNARY         reduce using rule 32 (or_test -> or_test OR and_test .)
+    OR              reduce using rule 32 (or_test -> or_test OR and_test .)
+    $end            reduce using rule 32 (or_test -> or_test OR and_test .)
+    RPAREN          reduce using rule 32 (or_test -> or_test OR and_test .)
+    COLON           reduce using rule 32 (or_test -> or_test OR and_test .)
+    COMMA           reduce using rule 32 (or_test -> or_test OR and_test .)
+    AND             shift and go to state 20
+
+
+state 39
+
+    (30) and_test -> and_test AND not_test .
+
+    AND             reduce using rule 30 (and_test -> and_test AND not_test .)
+    TERNARY         reduce using rule 30 (and_test -> and_test AND not_test .)
+    OR              reduce using rule 30 (and_test -> and_test AND not_test .)
+    $end            reduce using rule 30 (and_test -> and_test AND not_test .)
+    RPAREN          reduce using rule 30 (and_test -> and_test AND not_test .)
+    COLON           reduce using rule 30 (and_test -> and_test AND not_test .)
+    COMMA           reduce using rule 30 (and_test -> and_test AND not_test .)
+
+
+state 40
+
+    (21) comparison -> comparison LT arith_expr .
+    (18) arith_expr -> arith_expr . PLUS term
+    (19) arith_expr -> arith_expr . MINUS term
+
+    LT              reduce using rule 21 (comparison -> comparison LT arith_expr .)
+    GT              reduce using rule 21 (comparison -> comparison LT arith_expr .)
+    LE              reduce using rule 21 (comparison -> comparison LT arith_expr .)
+    GE              reduce using rule 21 (comparison -> comparison LT arith_expr .)
+    EQ              reduce using rule 21 (comparison -> comparison LT arith_expr .)
+    NE              reduce using rule 21 (comparison -> comparison LT arith_expr .)
+    AND             reduce using rule 21 (comparison -> comparison LT arith_expr .)
+    TERNARY         reduce using rule 21 (comparison -> comparison LT arith_expr .)
+    OR              reduce using rule 21 (comparison -> comparison LT arith_expr .)
+    $end            reduce using rule 21 (comparison -> comparison LT arith_expr .)
+    RPAREN          reduce using rule 21 (comparison -> comparison LT arith_expr .)
+    COLON           reduce using rule 21 (comparison -> comparison LT arith_expr .)
+    COMMA           reduce using rule 21 (comparison -> comparison LT arith_expr .)
+    PLUS            shift and go to state 28
+    MINUS           shift and go to state 29
+
+
+state 41
+
+    (22) comparison -> comparison GT arith_expr .
+    (18) arith_expr -> arith_expr . PLUS term
+    (19) arith_expr -> arith_expr . MINUS term
+
+    LT              reduce using rule 22 (comparison -> comparison GT arith_expr .)
+    GT              reduce using rule 22 (comparison -> comparison GT arith_expr .)
+    LE              reduce using rule 22 (comparison -> comparison GT arith_expr .)
+    GE              reduce using rule 22 (comparison -> comparison GT arith_expr .)
+    EQ              reduce using rule 22 (comparison -> comparison GT arith_expr .)
+    NE              reduce using rule 22 (comparison -> comparison GT arith_expr .)
+    AND             reduce using rule 22 (comparison -> comparison GT arith_expr .)
+    TERNARY         reduce using rule 22 (comparison -> comparison GT arith_expr .)
+    OR              reduce using rule 22 (comparison -> comparison GT arith_expr .)
+    $end            reduce using rule 22 (comparison -> comparison GT arith_expr .)
+    RPAREN          reduce using rule 22 (comparison -> comparison GT arith_expr .)
+    COLON           reduce using rule 22 (comparison -> comparison GT arith_expr .)
+    COMMA           reduce using rule 22 (comparison -> comparison GT arith_expr .)
+    PLUS            shift and go to state 28
+    MINUS           shift and go to state 29
+
+
+state 42
+
+    (23) comparison -> comparison LE arith_expr .
+    (18) arith_expr -> arith_expr . PLUS term
+    (19) arith_expr -> arith_expr . MINUS term
+
+    LT              reduce using rule 23 (comparison -> comparison LE arith_expr .)
+    GT              reduce using rule 23 (comparison -> comparison LE arith_expr .)
+    LE              reduce using rule 23 (comparison -> comparison LE arith_expr .)
+    GE              reduce using rule 23 (comparison -> comparison LE arith_expr .)
+    EQ              reduce using rule 23 (comparison -> comparison LE arith_expr .)
+    NE              reduce using rule 23 (comparison -> comparison LE arith_expr .)
+    AND             reduce using rule 23 (comparison -> comparison LE arith_expr .)
+    TERNARY         reduce using rule 23 (comparison -> comparison LE arith_expr .)
+    OR              reduce using rule 23 (comparison -> comparison LE arith_expr .)
+    $end            reduce using rule 23 (comparison -> comparison LE arith_expr .)
+    RPAREN          reduce using rule 23 (comparison -> comparison LE arith_expr .)
+    COLON           reduce using rule 23 (comparison -> comparison LE arith_expr .)
+    COMMA           reduce using rule 23 (comparison -> comparison LE arith_expr .)
+    PLUS            shift and go to state 28
+    MINUS           shift and go to state 29
+
+
+state 43
+
+    (24) comparison -> comparison GE arith_expr .
+    (18) arith_expr -> arith_expr . PLUS term
+    (19) arith_expr -> arith_expr . MINUS term
+
+    LT              reduce using rule 24 (comparison -> comparison GE arith_expr .)
+    GT              reduce using rule 24 (comparison -> comparison GE arith_expr .)
+    LE              reduce using rule 24 (comparison -> comparison GE arith_expr .)
+    GE              reduce using rule 24 (comparison -> comparison GE arith_expr .)
+    EQ              reduce using rule 24 (comparison -> comparison GE arith_expr .)
+    NE              reduce using rule 24 (comparison -> comparison GE arith_expr .)
+    AND             reduce using rule 24 (comparison -> comparison GE arith_expr .)
+    TERNARY         reduce using rule 24 (comparison -> comparison GE arith_expr .)
+    OR              reduce using rule 24 (comparison -> comparison GE arith_expr .)
+    $end            reduce using rule 24 (comparison -> comparison GE arith_expr .)
+    RPAREN          reduce using rule 24 (comparison -> comparison GE arith_expr .)
+    COLON           reduce using rule 24 (comparison -> comparison GE arith_expr .)
+    COMMA           reduce using rule 24 (comparison -> comparison GE arith_expr .)
+    PLUS            shift and go to state 28
+    MINUS           shift and go to state 29
+
+
+state 44
+
+    (25) comparison -> comparison EQ arith_expr .
+    (18) arith_expr -> arith_expr . PLUS term
+    (19) arith_expr -> arith_expr . MINUS term
+
+    LT              reduce using rule 25 (comparison -> comparison EQ arith_expr .)
+    GT              reduce using rule 25 (comparison -> comparison EQ arith_expr .)
+    LE              reduce using rule 25 (comparison -> comparison EQ arith_expr .)
+    GE              reduce using rule 25 (comparison -> comparison EQ arith_expr .)
+    EQ              reduce using rule 25 (comparison -> comparison EQ arith_expr .)
+    NE              reduce using rule 25 (comparison -> comparison EQ arith_expr .)
+    AND             reduce using rule 25 (comparison -> comparison EQ arith_expr .)
+    TERNARY         reduce using rule 25 (comparison -> comparison EQ arith_expr .)
+    OR              reduce using rule 25 (comparison -> comparison EQ arith_expr .)
+    $end            reduce using rule 25 (comparison -> comparison EQ arith_expr .)
+    RPAREN          reduce using rule 25 (comparison -> comparison EQ arith_expr .)
+    COLON           reduce using rule 25 (comparison -> comparison EQ arith_expr .)
+    COMMA           reduce using rule 25 (comparison -> comparison EQ arith_expr .)
+    PLUS            shift and go to state 28
+    MINUS           shift and go to state 29
+
+
+state 45
+
+    (26) comparison -> comparison NE arith_expr .
+    (18) arith_expr -> arith_expr . PLUS term
+    (19) arith_expr -> arith_expr . MINUS term
+
+    LT              reduce using rule 26 (comparison -> comparison NE arith_expr .)
+    GT              reduce using rule 26 (comparison -> comparison NE arith_expr .)
+    LE              reduce using rule 26 (comparison -> comparison NE arith_expr .)
+    GE              reduce using rule 26 (comparison -> comparison NE arith_expr .)
+    EQ              reduce using rule 26 (comparison -> comparison NE arith_expr .)
+    NE              reduce using rule 26 (comparison -> comparison NE arith_expr .)
+    AND             reduce using rule 26 (comparison -> comparison NE arith_expr .)
+    TERNARY         reduce using rule 26 (comparison -> comparison NE arith_expr .)
+    OR              reduce using rule 26 (comparison -> comparison NE arith_expr .)
+    $end            reduce using rule 26 (comparison -> comparison NE arith_expr .)
+    RPAREN          reduce using rule 26 (comparison -> comparison NE arith_expr .)
+    COLON           reduce using rule 26 (comparison -> comparison NE arith_expr .)
+    COMMA           reduce using rule 26 (comparison -> comparison NE arith_expr .)
+    PLUS            shift and go to state 28
+    MINUS           shift and go to state 29
+
+
+state 46
+
+    (18) arith_expr -> arith_expr PLUS term .
+    (15) term -> term . TIMES factor
+    (16) term -> term . DIVIDE factor
+
+    PLUS            reduce using rule 18 (arith_expr -> arith_expr PLUS term .)
+    MINUS           reduce using rule 18 (arith_expr -> arith_expr PLUS term .)
+    LT              reduce using rule 18 (arith_expr -> arith_expr PLUS term .)
+    GT              reduce using rule 18 (arith_expr -> arith_expr PLUS term .)
+    LE              reduce using rule 18 (arith_expr -> arith_expr PLUS term .)
+    GE              reduce using rule 18 (arith_expr -> arith_expr PLUS term .)
+    EQ              reduce using rule 18 (arith_expr -> arith_expr PLUS term .)
+    NE              reduce using rule 18 (arith_expr -> arith_expr PLUS term .)
+    AND             reduce using rule 18 (arith_expr -> arith_expr PLUS term .)
+    TERNARY         reduce using rule 18 (arith_expr -> arith_expr PLUS term .)
+    OR              reduce using rule 18 (arith_expr -> arith_expr PLUS term .)
+    $end            reduce using rule 18 (arith_expr -> arith_expr PLUS term .)
+    RPAREN          reduce using rule 18 (arith_expr -> arith_expr PLUS term .)
+    COLON           reduce using rule 18 (arith_expr -> arith_expr PLUS term .)
+    COMMA           reduce using rule 18 (arith_expr -> arith_expr PLUS term .)
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+
+
+state 47
+
+    (19) arith_expr -> arith_expr MINUS term .
+    (15) term -> term . TIMES factor
+    (16) term -> term . DIVIDE factor
+
+    PLUS            reduce using rule 19 (arith_expr -> arith_expr MINUS term .)
+    MINUS           reduce using rule 19 (arith_expr -> arith_expr MINUS term .)
+    LT              reduce using rule 19 (arith_expr -> arith_expr MINUS term .)
+    GT              reduce using rule 19 (arith_expr -> arith_expr MINUS term .)
+    LE              reduce using rule 19 (arith_expr -> arith_expr MINUS term .)
+    GE              reduce using rule 19 (arith_expr -> arith_expr MINUS term .)
+    EQ              reduce using rule 19 (arith_expr -> arith_expr MINUS term .)
+    NE              reduce using rule 19 (arith_expr -> arith_expr MINUS term .)
+    AND             reduce using rule 19 (arith_expr -> arith_expr MINUS term .)
+    TERNARY         reduce using rule 19 (arith_expr -> arith_expr MINUS term .)
+    OR              reduce using rule 19 (arith_expr -> arith_expr MINUS term .)
+    $end            reduce using rule 19 (arith_expr -> arith_expr MINUS term .)
+    RPAREN          reduce using rule 19 (arith_expr -> arith_expr MINUS term .)
+    COLON           reduce using rule 19 (arith_expr -> arith_expr MINUS term .)
+    COMMA           reduce using rule 19 (arith_expr -> arith_expr MINUS term .)
+    TIMES           shift and go to state 30
+    DIVIDE          shift and go to state 31
+
+
+state 48
+
+    (15) term -> term TIMES factor .
+
+    TIMES           reduce using rule 15 (term -> term TIMES factor .)
+    DIVIDE          reduce using rule 15 (term -> term TIMES factor .)
+    PLUS            reduce using rule 15 (term -> term TIMES factor .)
+    MINUS           reduce using rule 15 (term -> term TIMES factor .)
+    LT              reduce using rule 15 (term -> term TIMES factor .)
+    GT              reduce using rule 15 (term -> term TIMES factor .)
+    LE              reduce using rule 15 (term -> term TIMES factor .)
+    GE              reduce using rule 15 (term -> term TIMES factor .)
+    EQ              reduce using rule 15 (term -> term TIMES factor .)
+    NE              reduce using rule 15 (term -> term TIMES factor .)
+    AND             reduce using rule 15 (term -> term TIMES factor .)
+    TERNARY         reduce using rule 15 (term -> term TIMES factor .)
+    OR              reduce using rule 15 (term -> term TIMES factor .)
+    $end            reduce using rule 15 (term -> term TIMES factor .)
+    RPAREN          reduce using rule 15 (term -> term TIMES factor .)
+    COLON           reduce using rule 15 (term -> term TIMES factor .)
+    COMMA           reduce using rule 15 (term -> term TIMES factor .)
+
+
+state 49
+
+    (16) term -> term DIVIDE factor .
+
+    TIMES           reduce using rule 16 (term -> term DIVIDE factor .)
+    DIVIDE          reduce using rule 16 (term -> term DIVIDE factor .)
+    PLUS            reduce using rule 16 (term -> term DIVIDE factor .)
+    MINUS           reduce using rule 16 (term -> term DIVIDE factor .)
+    LT              reduce using rule 16 (term -> term DIVIDE factor .)
+    GT              reduce using rule 16 (term -> term DIVIDE factor .)
+    LE              reduce using rule 16 (term -> term DIVIDE factor .)
+    GE              reduce using rule 16 (term -> term DIVIDE factor .)
+    EQ              reduce using rule 16 (term -> term DIVIDE factor .)
+    NE              reduce using rule 16 (term -> term DIVIDE factor .)
+    AND             reduce using rule 16 (term -> term DIVIDE factor .)
+    TERNARY         reduce using rule 16 (term -> term DIVIDE factor .)
+    OR              reduce using rule 16 (term -> term DIVIDE factor .)
+    $end            reduce using rule 16 (term -> term DIVIDE factor .)
+    RPAREN          reduce using rule 16 (term -> term DIVIDE factor .)
+    COLON           reduce using rule 16 (term -> term DIVIDE factor .)
+    COMMA           reduce using rule 16 (term -> term DIVIDE factor .)
+
+
+state 50
+
+    (11) power -> atom_expr POWER factor .
+
+    TIMES           reduce using rule 11 (power -> atom_expr POWER factor .)
+    DIVIDE          reduce using rule 11 (power -> atom_expr POWER factor .)
+    PLUS            reduce using rule 11 (power -> atom_expr POWER factor .)
+    MINUS           reduce using rule 11 (power -> atom_expr POWER factor .)
+    LT              reduce using rule 11 (power -> atom_expr POWER factor .)
+    GT              reduce using rule 11 (power -> atom_expr POWER factor .)
+    LE              reduce using rule 11 (power -> atom_expr POWER factor .)
+    GE              reduce using rule 11 (power -> atom_expr POWER factor .)
+    EQ              reduce using rule 11 (power -> atom_expr POWER factor .)
+    NE              reduce using rule 11 (power -> atom_expr POWER factor .)
+    AND             reduce using rule 11 (power -> atom_expr POWER factor .)
+    TERNARY         reduce using rule 11 (power -> atom_expr POWER factor .)
+    OR              reduce using rule 11 (power -> atom_expr POWER factor .)
+    $end            reduce using rule 11 (power -> atom_expr POWER factor .)
+    RPAREN          reduce using rule 11 (power -> atom_expr POWER factor .)
+    COLON           reduce using rule 11 (power -> atom_expr POWER factor .)
+    COMMA           reduce using rule 11 (power -> atom_expr POWER factor .)
+
+
+state 51
+
+    (4) trailer -> LPAREN arglist . RPAREN
+    (5) arglist -> arglist . COMMA argument
+
+    RPAREN          shift and go to state 56
+    COMMA           shift and go to state 57
+
+
+state 52
+
+    (6) arglist -> argument .
+
+    RPAREN          reduce using rule 6 (arglist -> argument .)
+    COMMA           reduce using rule 6 (arglist -> argument .)
+
+
+state 53
+
+    (7) argument -> test .
+
+    RPAREN          reduce using rule 7 (argument -> test .)
+    COMMA           reduce using rule 7 (argument -> test .)
+
+
+state 54
+
+    (35) atom -> LPAREN test RPAREN .
+
+    LPAREN          reduce using rule 35 (atom -> LPAREN test RPAREN .)
+    POWER           reduce using rule 35 (atom -> LPAREN test RPAREN .)
+    TIMES           reduce using rule 35 (atom -> LPAREN test RPAREN .)
+    DIVIDE          reduce using rule 35 (atom -> LPAREN test RPAREN .)
+    PLUS            reduce using rule 35 (atom -> LPAREN test RPAREN .)
+    MINUS           reduce using rule 35 (atom -> LPAREN test RPAREN .)
+    LT              reduce using rule 35 (atom -> LPAREN test RPAREN .)
+    GT              reduce using rule 35 (atom -> LPAREN test RPAREN .)
+    LE              reduce using rule 35 (atom -> LPAREN test RPAREN .)
+    GE              reduce using rule 35 (atom -> LPAREN test RPAREN .)
+    EQ              reduce using rule 35 (atom -> LPAREN test RPAREN .)
+    NE              reduce using rule 35 (atom -> LPAREN test RPAREN .)
+    AND             reduce using rule 35 (atom -> LPAREN test RPAREN .)
+    TERNARY         reduce using rule 35 (atom -> LPAREN test RPAREN .)
+    OR              reduce using rule 35 (atom -> LPAREN test RPAREN .)
+    $end            reduce using rule 35 (atom -> LPAREN test RPAREN .)
+    RPAREN          reduce using rule 35 (atom -> LPAREN test RPAREN .)
+    COLON           reduce using rule 35 (atom -> LPAREN test RPAREN .)
+    COMMA           reduce using rule 35 (atom -> LPAREN test RPAREN .)
+
+
+state 55
+
+    (34) test -> or_test TERNARY or_test COLON . test
+    (33) test -> . or_test
+    (34) test -> . or_test TERNARY or_test COLON test
+    (31) or_test -> . and_test
+    (32) or_test -> . or_test OR and_test
+    (29) and_test -> . not_test
+    (30) and_test -> . and_test AND not_test
+    (27) not_test -> . NOT not_test
+    (28) not_test -> . comparison
+    (20) comparison -> . arith_expr
+    (21) comparison -> . comparison LT arith_expr
+    (22) comparison -> . comparison GT arith_expr
+    (23) comparison -> . comparison LE arith_expr
+    (24) comparison -> . comparison GE arith_expr
+    (25) comparison -> . comparison EQ arith_expr
+    (26) comparison -> . comparison NE arith_expr
+    (17) arith_expr -> . term
+    (18) arith_expr -> . arith_expr PLUS term
+    (19) arith_expr -> . arith_expr MINUS term
+    (14) term -> . factor
+    (15) term -> . term TIMES factor
+    (16) term -> . term DIVIDE factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . power
+    (10) power -> . atom_expr
+    (11) power -> . atom_expr POWER factor
+    (8) atom_expr -> . atom
+    (9) atom_expr -> . atom trailer
+    (2) atom -> . ID
+    (3) atom -> . NUMBER
+    (35) atom -> . LPAREN test RPAREN
+
+    NOT             shift and go to state 6
+    MINUS           shift and go to state 10
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 16
+    LPAREN          shift and go to state 17
+
+    or_test                        shift and go to state 3
+    test                           shift and go to state 58
+    and_test                       shift and go to state 4
+    not_test                       shift and go to state 5
+    comparison                     shift and go to state 7
+    arith_expr                     shift and go to state 8
+    term                           shift and go to state 9
+    factor                         shift and go to state 11
+    power                          shift and go to state 12
+    atom_expr                      shift and go to state 13
+    atom                           shift and go to state 14
+
+state 56
+
+    (4) trailer -> LPAREN arglist RPAREN .
+
+    POWER           reduce using rule 4 (trailer -> LPAREN arglist RPAREN .)
+    TIMES           reduce using rule 4 (trailer -> LPAREN arglist RPAREN .)
+    DIVIDE          reduce using rule 4 (trailer -> LPAREN arglist RPAREN .)
+    PLUS            reduce using rule 4 (trailer -> LPAREN arglist RPAREN .)
+    MINUS           reduce using rule 4 (trailer -> LPAREN arglist RPAREN .)
+    LT              reduce using rule 4 (trailer -> LPAREN arglist RPAREN .)
+    GT              reduce using rule 4 (trailer -> LPAREN arglist RPAREN .)
+    LE              reduce using rule 4 (trailer -> LPAREN arglist RPAREN .)
+    GE              reduce using rule 4 (trailer -> LPAREN arglist RPAREN .)
+    EQ              reduce using rule 4 (trailer -> LPAREN arglist RPAREN .)
+    NE              reduce using rule 4 (trailer -> LPAREN arglist RPAREN .)
+    AND             reduce using rule 4 (trailer -> LPAREN arglist RPAREN .)
+    TERNARY         reduce using rule 4 (trailer -> LPAREN arglist RPAREN .)
+    OR              reduce using rule 4 (trailer -> LPAREN arglist RPAREN .)
+    $end            reduce using rule 4 (trailer -> LPAREN arglist RPAREN .)
+    RPAREN          reduce using rule 4 (trailer -> LPAREN arglist RPAREN .)
+    COLON           reduce using rule 4 (trailer -> LPAREN arglist RPAREN .)
+    COMMA           reduce using rule 4 (trailer -> LPAREN arglist RPAREN .)
+
+
+state 57
+
+    (5) arglist -> arglist COMMA . argument
+    (7) argument -> . test
+    (33) test -> . or_test
+    (34) test -> . or_test TERNARY or_test COLON test
+    (31) or_test -> . and_test
+    (32) or_test -> . or_test OR and_test
+    (29) and_test -> . not_test
+    (30) and_test -> . and_test AND not_test
+    (27) not_test -> . NOT not_test
+    (28) not_test -> . comparison
+    (20) comparison -> . arith_expr
+    (21) comparison -> . comparison LT arith_expr
+    (22) comparison -> . comparison GT arith_expr
+    (23) comparison -> . comparison LE arith_expr
+    (24) comparison -> . comparison GE arith_expr
+    (25) comparison -> . comparison EQ arith_expr
+    (26) comparison -> . comparison NE arith_expr
+    (17) arith_expr -> . term
+    (18) arith_expr -> . arith_expr PLUS term
+    (19) arith_expr -> . arith_expr MINUS term
+    (14) term -> . factor
+    (15) term -> . term TIMES factor
+    (16) term -> . term DIVIDE factor
+    (12) factor -> . MINUS factor
+    (13) factor -> . power
+    (10) power -> . atom_expr
+    (11) power -> . atom_expr POWER factor
+    (8) atom_expr -> . atom
+    (9) atom_expr -> . atom trailer
+    (2) atom -> . ID
+    (3) atom -> . NUMBER
+    (35) atom -> . LPAREN test RPAREN
+
+    NOT             shift and go to state 6
+    MINUS           shift and go to state 10
+    ID              shift and go to state 15
+    NUMBER          shift and go to state 16
+    LPAREN          shift and go to state 17
+
+    argument                       shift and go to state 59
+    test                           shift and go to state 53
+    or_test                        shift and go to state 3
+    and_test                       shift and go to state 4
+    not_test                       shift and go to state 5
+    comparison                     shift and go to state 7
+    arith_expr                     shift and go to state 8
+    term                           shift and go to state 9
+    factor                         shift and go to state 11
+    power                          shift and go to state 12
+    atom_expr                      shift and go to state 13
+    atom                           shift and go to state 14
+
+state 58
+
+    (34) test -> or_test TERNARY or_test COLON test .
+
+    $end            reduce using rule 34 (test -> or_test TERNARY or_test COLON test .)
+    RPAREN          reduce using rule 34 (test -> or_test TERNARY or_test COLON test .)
+    COMMA           reduce using rule 34 (test -> or_test TERNARY or_test COLON test .)
+
+
+state 59
+
+    (5) arglist -> arglist COMMA argument .
+
+    RPAREN          reduce using rule 5 (arglist -> arglist COMMA argument .)
+    COMMA           reduce using rule 5 (arglist -> arglist COMMA argument .)
+
