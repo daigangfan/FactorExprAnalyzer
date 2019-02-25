@@ -1,8 +1,10 @@
-from exprAnalyze import parse_expr
 import ast
 import logging
 import re
 from itertools import combinations
+
+from exprAnalyze import parse_expr
+
 logger = logging.getLogger()
 handler = logging.StreamHandler()
 logger.addHandler(handler)
@@ -17,7 +19,7 @@ class Handler:
         "TR": "MAX(MAX(HIGH-LOW,ABS(HIGH-DELAY(CLOSE,1))),ABS(LOW-DELAY(CLOSE,1)))".lower(),
         "HD": "(HIGH-DELAY(HIGH,1))".lower(),
         "LD": "(DELAY(LOW,1)-LOW)".lower(),
-        "VWAP":"(AMOUNT/VOLUME)"
+        "VWAP": "(AMOUNT/VOLUME)"
     }
     for key in substitute_dict.copy():
         substitute_dict[key.lower()] = substitute_dict[key]
@@ -93,14 +95,15 @@ class Handler:
         if len(args) != 2:
             logger.warning("incorrect argument number")
             return "undefined"
-        return "{0}.mask({0}>{1},other={1})".format(args[0], args[1])
+        return "dt.min2df({0},{1})".format(args[0], args[1])
 
     @classmethod
     def handle_max(cls, args):
         if len(args) != 2:
             logger.warning("incorrect argument number")
             return "undefined"
-        return "{0}.mask({0}<{1},other={1})".format(args[0], args[1])
+        return "dt.max2df({0},{1})".format(args[0], args[1])
+
 
     @classmethod
     def handle_tsmin(cls, args):
@@ -145,25 +148,26 @@ class Handler:
         return "{0}.ewm(alpha={2}/{1},adjust=False).mean()".format(args[0], args[1], args[2])
 
     @classmethod
-    def handle_std(cls,args):
+    def handle_std(cls, args):
         if len(args) != 2:
             logger.warning("incorrect argument number")
             return "undefined"
         return "dt.ts_std({0},{1})".format(args[0], args[1])
 
     @classmethod
-    def handle_log(cls,args):
+    def handle_log(cls, args):
         if len(args) != 1:
             logger.warning("incorrect argument number")
             return "undefined"
         return "dt.df_log({0})".format(args[0])
 
     @classmethod
-    def handle_count(cls,args):
-        if len(args)!=2:
+    def handle_count(cls, args):
+        if len(args) != 2:
             logger.warning("incorrect argument number")
             return "undefined"
-        return "{0}.rolling({1}).sum()".format(args[0],args[1])
+        return "{0}.rolling({1}).sum()".format(args[0], args[1])
+
 
 def parser(string: str):
     string = string.replace("^", "**")
@@ -270,16 +274,22 @@ def recursive_generate(node, variable_dict={}, variable_number=0, sentences=[]):
             recursive_generate(node.operand, variable_dict, variable_number, sentences)
 
 
-    elif isinstance(node,ast.IfExp):
-        temp=""
+    elif isinstance(node, ast.IfExp):
+        temp = ""
         if node not in variable_dict.keys():
             variable_dict[node] = "var_{}".format(variable_number)
             variable_number += 1
         temp += (variable_dict[node] + "=")
-        variable_number=register_node(node.test,variable_dict,variable_number)
-        variable_number=register_node(node.body,variable_dict,variable_number)
-        variable_number=register_node(node.orelse,variable_dict,variable_number)
-        temp+="{0}.mask({1},other={2})".format(variable_dict[node.orelse],variable_dict[node.test],variable_dict[node.body])
+        variable_number = register_node(node.test, variable_dict, variable_number)
+        variable_number = register_node(node.body, variable_dict, variable_number)
+        variable_number = register_node(node.orelse, variable_dict, variable_number)
+        if not isinstance(node.orelse, (ast.Num)):
+            temp += "{0}.mask({1},other={2})".format(variable_dict[node.orelse], variable_dict[node.test],
+                                                     variable_dict[node.body])
+        else:
+            temp += "(dt.df_copy_as_zero(m5_adjc)+{0}).mask({1},other={2})".format(variable_dict[node.orelse],
+                                                                                   variable_dict[node.test],
+                                                                                   variable_dict[node.body])
         sentences.append(temp)
         if not isinstance(node.test, (ast.Num, ast.Name)):
             variable_number += 1
@@ -292,15 +302,15 @@ def recursive_generate(node, variable_dict={}, variable_number=0, sentences=[]):
             recursive_generate(node.body, variable_dict, variable_number, sentences)
 
 
-
 def handle_replicate(sentences):
-    splitted=[a.split("=") for a in sentences]
-    for t in combinations(splitted,2):
-        if t[0][1]==t[1][1]:
-            for i,sent in enumerate(sentences):
+    splitted = [a.split("=") for a in sentences]
+    for t in combinations(splitted, 2):
+        if t[0][1] == t[1][1]:
+            for i, sent in enumerate(sentences):
                 if sent.startswith(t[1][0]):
-                    sentences[i]=t[1][0]+"="+t[0][0]
+                    sentences[i] = t[1][0] + "=" + t[0][0]
     return sentences
+
 
 def pipeline(a: str):
     data = parser(a)
