@@ -82,7 +82,10 @@ def p_atom_name(p):
 
 def p_atom_number(p):
     ''' atom : NUMBER '''
-    p[0] = ast.Num(n=float(p[1]))
+    try:
+        p[0]=ast.Num(n=int(p[1]))
+    except ValueError as e:
+        p[0] = ast.Num(n=float(p[1]))
 
 
 def p_trailer(p):

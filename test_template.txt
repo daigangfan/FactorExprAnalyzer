@@ -1,0 +1,5 @@
+def AF20190222_DGF1_01({{arg}}):
+    {% for sent in sentences %}
+    {{sent}}
+    {% endfor %}
+    return var_0
